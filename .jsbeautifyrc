@@ -1,0 +1,17 @@
+{
+  "indent_size": 2,
+  "indent_with_tabs": false,
+  "css": {
+    "newline_between_rules": true,
+    "selector_separator_newline": true,
+    "space_around_combinator": true,
+    "space_around_selector_separator": true
+  },
+  "html": {
+    "extra_liners": [],
+    "indent_inner_html": false,
+    "indent_body_inner_html": false,
+    "indent_head_inner_html": true,
+    "inline": []
+  }
+}

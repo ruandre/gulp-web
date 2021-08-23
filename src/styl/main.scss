@@ -1,0 +1,64 @@
+@import './helpers.scss';
+@import './reset.scss';
+
+html {
+  background: #fff;
+  color: #242425;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  width: 100%;
+}
+
+// main styles
+
+.layout-center {
+  margin: 0 auto;
+  max-width: 100%;
+  width: 52rem;
+}
+
+// font size for small screens
+
+html {
+  font-size: 100%;
+}
+
+@media (max-width: 18.75em) {
+  html {
+    font-size: 5.5vw;
+  }
+}
+
+// utility
+
+.is-hidden {
+  display: none !important;
+}
+
+.usn {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+// misc
+
+.msg-bar {
+  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-weight: normal;
+  left: 0;
+  line-height: 1.5;
+  padding: 1rem;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}

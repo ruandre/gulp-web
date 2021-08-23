@@ -1,0 +1,10 @@
+script(src=`https://www.googletagmanager.com/gtag/js?id=${trackingId}` async='async')
+
+script
+  :uglify-js
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+script.
+  gtag('config', '#{trackingId}');
