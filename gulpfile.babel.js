@@ -39,7 +39,7 @@ function copy() {
 
 function css() {
   return gulp
-    .src(`${src}/styl/main.scss`)
+    .src(`${src}/sass/main.scss`)
     .pipe(plumber({ errorHandler: console.error }))
     .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
     .pipe(autoprefixer())
