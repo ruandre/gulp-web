@@ -12,9 +12,10 @@ import gulpSass from 'gulp-sass'
 import dartSass from 'sass'
 import autoprefixer from 'gulp-autoprefixer'
 import rollup from 'gulp-better-rollup'
-import resolve from '@rollup/plugin-node-resolve'
+import rollupReplace from '@rollup/plugin-replace'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import babel from 'rollup-plugin-babel'
+import { babel } from '@rollup/plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import data from 'gulp-data'
 import pug from 'gulp-pug'
@@ -41,13 +42,29 @@ function css() {
   return gulp
     .src(`${src}/sass/main.scss`)
     .pipe(plumber({ errorHandler: console.error }))
-    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
+    .pipe(
+      sass({
+        includePaths: 'node_modules',
+        outputStyle: 'compressed',
+      }).on('error', sass.logError)
+    )
     .pipe(autoprefixer())
     .pipe(dest(dist))
 }
 
 function js() {
-  const plugins = [resolve(), commonjs(), babel(), terser()]
+  const plugins = [
+    rollupReplace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+    babel({
+      babelHelpers: 'bundled',
+      exclude: 'node_modules/**',
+      presets: ['@babel/env', '@babel/preset-react'],
+    }),
+    nodeResolve({ extensions: ['.jsx', '.js'] }),
+    commonjs(),
+    terser(),
+  ]
+
   return gulp
     .src(`${src}/js/bundle.js`)
     .pipe(rollup({ plugins }, 'iife'))
@@ -55,19 +72,27 @@ function js() {
 }
 
 function jsDev() {
-  const opts = {
-    presets: [
-      [
-        '@babel/preset-env',
-        {
-          targets: {
-            browsers: ['last 1 Chrome version', 'last 1 Firefox version'],
+  const plugins = [
+    rollupReplace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
+    babel({
+      babelHelpers: 'bundled',
+      exclude: 'node_modules/**',
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            targets: {
+              browsers: ['last 1 Chrome version', 'last 1 Firefox version'],
+            },
           },
-        },
+        ],
+        '@babel/preset-react',
       ],
-    ],
-  }
-  const plugins = [resolve(), commonjs(), babel(opts)]
+    }),
+    nodeResolve({ extensions: ['.jsx', '.js'] }),
+    commonjs(),
+  ]
+
   return gulp
     .src(`${src}/js/bundle.js`)
     .pipe(rollup({ plugins }, 'iife'))
