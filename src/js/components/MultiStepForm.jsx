@@ -10,29 +10,14 @@ const MultiStepForm = () => {
   const [step, setStep] = useState(0)
   const [formState, setFormState] = useState([])
 
-  const multiStepFormState = useMemo(
-    () => ({
-      data,
-      step,
-      setStep,
-      formState,
-      setFormState,
-    }),
-    [step, formState]
-  )
+  const multiStepFormState = useMemo(() => ({ data, step, setStep, formState, setFormState }), [step, formState])
 
   const steps = [
-    ...data.map(item => (
-      <QuestionRadio question={item.question} answers={item.answers} />
-    )),
+    ...data.map(item => <QuestionRadio question={item.question} answers={item.answers} />),
     ...[<Results />],
   ]
 
-  return (
-    <MultiStepFormContext.Provider value={multiStepFormState}>
-      {steps[step]}
-    </MultiStepFormContext.Provider>
-  )
+  return <MultiStepFormContext.Provider value={multiStepFormState}>{steps[step]}</MultiStepFormContext.Provider>
 }
 
 export default MultiStepForm

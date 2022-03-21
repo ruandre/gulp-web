@@ -2,8 +2,7 @@ import React, { useContext } from 'react'
 import MultiStepFormContext from './MultiStepFormContext'
 
 const Results = () => {
-  const { data, setStep, formState, setFormState } =
-    useContext(MultiStepFormContext)
+  const { data, setStep, formState, setFormState } = useContext(MultiStepFormContext)
 
   const onTryAgainClick = () => {
     setFormState([]) // reset
@@ -21,24 +20,14 @@ const Results = () => {
 
           <dl className="row">
             <dt className="col-sm-3">Answer:</dt>
-            <dd
-              className={
-                answer === data[i].correctAnswer
-                  ? 'col-sm-9 text-success'
-                  : 'col-sm-9 text-danger'
-              }
-            >
+            <dd className={answer === data[i].correctAnswer ? 'col-sm-9 text-success' : 'col-sm-9 text-danger'}>
               {answer} {answer === data[i].correctAnswer ? '✔️' : '❌'}
             </dd>
           </dl>
         </div>
       ))}
 
-      <button
-        className="btn btn-primary"
-        type="button"
-        onClick={onTryAgainClick}
-      >
+      <button className="btn btn-primary" type="button" onClick={onTryAgainClick}>
         Try Again
       </button>
     </div>

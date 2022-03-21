@@ -34,25 +34,17 @@ const server = browserSync.create()
 const src = './src'
 const dist = './dist'
 
-function copy() {
-  return gulp.src(`${src}/copy/**/*`).pipe(dest(dist))
-}
+const copy = () => gulp.src(`${src}/copy/**/*`).pipe(dest(dist))
 
-function css() {
-  return gulp
+const css = () =>
+  gulp
     .src(`${src}/sass/main.scss`)
     .pipe(plumber({ errorHandler: console.error }))
-    .pipe(
-      sass({
-        includePaths: 'node_modules',
-        outputStyle: 'compressed',
-      }).on('error', sass.logError)
-    )
+    .pipe(sass({ includePaths: 'node_modules', outputStyle: 'compressed' }).on('error', sass.logError))
     .pipe(autoprefixer())
     .pipe(dest(dist))
-}
 
-function js() {
+const js = () => {
   const plugins = [
     rollupReplace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
     babel({
@@ -65,27 +57,17 @@ function js() {
     terser(),
   ]
 
-  return gulp
-    .src(`${src}/js/bundle.js`)
-    .pipe(rollup({ plugins }, 'iife'))
-    .pipe(dest(dist))
+  return gulp.src(`${src}/js/bundle.js`).pipe(rollup({ plugins }, 'iife')).pipe(dest(dist))
 }
 
-function jsDev() {
+const jsDev = () => {
   const plugins = [
     rollupReplace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
     babel({
       babelHelpers: 'bundled',
       exclude: 'node_modules/**',
       presets: [
-        [
-          '@babel/preset-env',
-          {
-            targets: {
-              browsers: ['last 1 Chrome version', 'last 1 Firefox version'],
-            },
-          },
-        ],
+        ['@babel/preset-env', { targets: { browsers: ['last 1 Chrome version', 'last 1 Firefox version'] } }],
         '@babel/preset-react',
       ],
     }),
@@ -93,17 +75,14 @@ function jsDev() {
     commonjs(),
   ]
 
-  return gulp
-    .src(`${src}/js/bundle.js`)
-    .pipe(rollup({ plugins }, 'iife'))
-    .pipe(dest(dist))
+  return gulp.src(`${src}/js/bundle.js`).pipe(rollup({ plugins }, 'iife')).pipe(dest(dist))
 }
 
-function html() {
+const html = () => {
   const b = true // beautify
   const e = true // encode special characters
   const i = false // inline js and css bundles
-  const l = false // normalize end of line to crlf
+  const l = true // normalize end of line to crlf
 
   const config = fs.readFileSync(path.join(__dirname, 'config.json'))
 
@@ -145,18 +124,18 @@ function html() {
     .pipe(dest(dist))
 }
 
-function reload(cb) {
+const reload = cb => {
   server.reload()
   cb()
 }
 
-function serve(cb) {
+const serve = cb => {
   server.init({ server: { baseDir: dist } })
   cb()
 }
 
-function watch() {
-  gulp.watch('src/**/*', series(copy, parallel(css, jsDev), html, reload))
+const watch = () => {
+  gulp.watch(`${src}/**/*`, series(copy, parallel(css, jsDev), html, reload))
 }
 
 task('default', series(copy, parallel(css, js), html))

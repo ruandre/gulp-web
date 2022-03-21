@@ -7,8 +7,7 @@ import MultiStepFormContext from './MultiStepFormContext'
 
 const hash = str => sha1(str).toString()
 
-const isAvailableAnswer = (answer, availableAnswers) =>
-  availableAnswers.includes(answer)
+const isAvailableAnswer = (answer, availableAnswers) => availableAnswers.includes(answer)
 
 const QuestionRadio = ({ question, answers }) => {
   const { setStep, setFormState } = useContext(MultiStepFormContext)
@@ -42,27 +41,15 @@ const QuestionRadio = ({ question, answers }) => {
       <div className="my-4" onChange={onRadioChange}>
         {shuffledAnswers.map((answer, i) => (
           <div key={answer} className="form-check my-2">
-            <input
-              className="form-check-input"
-              type="radio"
-              name={id}
-              id={`${id}-${i}`}
-              value={answer}
-            />{' '}
-            <label
-              className="form-check-label"
-              key={answer}
-              htmlFor={`${id}-${i}`}
-            >
+            <input className="form-check-input" type="radio" name={id} id={`${id}-${i}`} value={answer} />{' '}
+            <label className="form-check-label" key={answer} htmlFor={`${id}-${i}`}>
               {answer}
             </label>
           </div>
         ))}
       </div>
 
-      {hasError && (
-        <div className="text-danger my-2">Please select an answer.</div>
-      )}
+      {hasError && <div className="text-danger my-2">Please select an answer.</div>}
 
       <button className="btn btn-primary" type="button" onClick={onNextClick}>
         Next Question

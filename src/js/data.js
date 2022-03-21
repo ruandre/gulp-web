@@ -1,12 +1,7 @@
 const data = [
   {
     question: 'The Mad Hatter and Cheshire Cat are characters from which book?',
-    answers: [
-      'Winne-the-Pooh',
-      "Charlotte's Web",
-      'Charlie and the Chocolate Factory',
-      'Alice in Wonderland',
-    ],
+    answers: ['Winne-the-Pooh', "Charlotte's Web", 'Charlie and the Chocolate Factory', 'Alice in Wonderland'],
     correctAnswer: 'Alice in Wonderland',
   },
   {
@@ -21,12 +16,7 @@ const data = [
   },
   {
     question: 'Formentera is part of which group of Spanish islands?',
-    answers: [
-      'Canary Islands',
-      'Cies Islands',
-      'Medes Islands',
-      'Balearic Islands',
-    ],
+    answers: ['Canary Islands', 'Cies Islands', 'Medes Islands', 'Balearic Islands'],
     correctAnswer: 'Balearic Islands',
   },
 ]
