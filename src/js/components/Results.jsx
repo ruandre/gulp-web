@@ -1,10 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
+import MultiStepFormContext from './MultiStepFormContext'
 
-const Results = ({ data, formState, setFormState, setStep }) => {
+const Results = () => {
+  const { data, setStep, formState, setFormState } =
+    useContext(MultiStepFormContext)
+
   const onTryAgainClick = () => {
-    // reset
-    setFormState([])
+    setFormState([]) // reset
     setStep(0)
   }
 
@@ -41,26 +43,6 @@ const Results = ({ data, formState, setFormState, setStep }) => {
       </button>
     </div>
   )
-}
-
-Results.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      question: PropTypes.string.isRequired,
-      answers: PropTypes.arrayOf(PropTypes.string),
-      correctAnswer: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-
-  formState: PropTypes.arrayOf(
-    PropTypes.shape({
-      question: PropTypes.string.isRequired,
-      answer: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-
-  setFormState: PropTypes.func.isRequired,
-  setStep: PropTypes.func.isRequired,
 }
 
 export default Results

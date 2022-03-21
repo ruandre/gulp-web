@@ -1,17 +1,23 @@
-import React, { useState, useMemo } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import shuffle from 'lodash-es/shuffle'
 import sha1 from 'crypto-js/sha1'
 
+import MultiStepFormContext from './MultiStepFormContext'
+
 const hash = str => sha1(str).toString()
+
 const isAvailableAnswer = (answer, availableAnswers) =>
   availableAnswers.includes(answer)
 
-const QuestionRadio = ({ question, answers, setStep, setFormState }) => {
-  const id = hash(question)
-  const shuffledAnswers = useMemo(() => shuffle(answers), [answers])
+const QuestionRadio = ({ question, answers }) => {
+  const { setStep, setFormState } = useContext(MultiStepFormContext)
+
   const [hasError, setHasError] = useState(false)
   const [choice, setChoice] = useState(null)
+
+  const shuffledAnswers = useMemo(() => shuffle(answers), [answers])
+  const id = hash(question)
 
   const onRadioChange = e => {
     if (e.target.value && isAvailableAnswer(e.target.value, answers)) {
@@ -68,8 +74,6 @@ const QuestionRadio = ({ question, answers, setStep, setFormState }) => {
 QuestionRadio.propTypes = {
   question: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setStep: PropTypes.func.isRequired,
-  setFormState: PropTypes.func.isRequired,
 }
 
 export default QuestionRadio

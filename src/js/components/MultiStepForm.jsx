@@ -1,35 +1,38 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
-import data from '../data'
+import MultiStepFormContext from './MultiStepFormContext'
 import QuestionRadio from './QuestionRadio'
 import Results from './Results'
+
+import data from '../data'
 
 const MultiStepForm = () => {
   const [step, setStep] = useState(0)
   const [formState, setFormState] = useState([])
 
+  const multiStepFormState = useMemo(
+    () => ({
+      data,
+      step,
+      setStep,
+      formState,
+      setFormState,
+    }),
+    [step, formState]
+  )
+
   const steps = [
     ...data.map(item => (
-      <QuestionRadio
-        question={item.question}
-        answers={item.answers}
-        step={step}
-        setStep={setStep}
-        formState={formState}
-        setFormState={setFormState}
-      />
+      <QuestionRadio question={item.question} answers={item.answers} />
     )),
-    ...[
-      <Results
-        data={data}
-        formState={formState}
-        setFormState={setFormState}
-        setStep={setStep}
-      />,
-    ],
+    ...[<Results />],
   ]
 
-  return steps[step]
+  return (
+    <MultiStepFormContext.Provider value={multiStepFormState}>
+      {steps[step]}
+    </MultiStepFormContext.Provider>
+  )
 }
 
 export default MultiStepForm
