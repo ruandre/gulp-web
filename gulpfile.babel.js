@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-console, no-param-reassign */
 
 import fs from 'fs'
 import path from 'path'
