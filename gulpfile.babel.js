@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-console, no-param-reassign */
 
 import fs from 'fs'
 import path from 'path'
@@ -14,7 +13,7 @@ import autoprefixer from 'gulp-autoprefixer'
 import rollup from 'gulp-better-rollup'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import babel from 'rollup-plugin-babel'
+import { babel } from '@rollup/plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import data from 'gulp-data'
 import pug from 'gulp-pug'
